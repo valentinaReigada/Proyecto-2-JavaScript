@@ -9,11 +9,9 @@ const cont_Menu_Oculto = document.createElement("div");
 const navBar_Menu_Oculto = document.createElement("nav");
 const label = document.createElement("label");
 
-// Opciones del menu oculto
-const opcionA = document.createElement("a");
-const opcionB = document.createElement("a");
-const opcionC = document.createElement("a");
-const opcionD = document.createElement("a");
+// clases a los elementos creados
+divMenu_Oculto.className = "container-menu";
+cont_Menu_Oculto.className = "cont-menu";
 
 label.setAttribute("for", "btn_menu");
 label.className = "bi bi-x-lg";
@@ -21,49 +19,77 @@ label.className = "bi bi-x-lg";
 // agrego clase a los elementos creados.
 navBar.className = "navBar";
 divLogo.className = "contenedor-logoDeMenu";
-
-// divMenu_Oculto.setAttribute("id", "container-menu");
-divMenu_Oculto.className = "container-menu";
-cont_Menu_Oculto.className = "cont-menu";
-
 divLogo.innerHTML = `
 <label for="btn_menu">
 <img id="img_logo" src="./img/botonHam.png" alt="logo" />
 </label>
 <input id="btn_menu" type="checkbox"></input>`;
 
+navBar.appendChild(divLogo);
+
+// Opciones del menu oculto
+const opcionA = document.createElement("a");
+const opcionB = document.createElement("a");
+const opcionC = document.createElement("a");
+const opcionD = document.createElement("a");
+const opcionE = document.createElement("a");
+const opcionF = document.createElement("a");
+const opcionG = document.createElement("a");
+const opcionI = document.createElement("a");
+
 opcionA.innerHTML = "Inicio";
 opcionB.innerHTML = "Peliculas";
 opcionC.innerHTML = "Series";
 opcionD.innerHTML = "Ingresar al Sistema";
+// Si esta logueado se me visualizan estas opciones
+opcionE.innerHTML = "Admin Peliculas";
+opcionF.innerHTML = "Admin Usuarios";
+opcionG.innerHTML = "Salir del sistema";
+opcionI.innerHTML = "Adminitración";
 
 opcionA.setAttribute("href", "./index.html");
 opcionB.setAttribute("href", "./error404.html");
 opcionC.setAttribute("href", "./error404.html");
-opcionD.setAttribute("href", "./error404.html");
+
 opcionD.setAttribute("data-bs-toggle", "modal");
 opcionD.setAttribute("data-bs-target", "#login");
 
-// Unir todo
-navBar.appendChild(divLogo);
+opcionG.setAttribute("id", "salirSistema");
+opcionG.setAttribute("type", "button");
 
-// union del menu oculto
+// union del menu oculto - muestro o oculto opciones segun estado de login...
+const cargarHeader = () => {
+  cont_Menu_Oculto.appendChild(navBar_Menu_Oculto);
+  cont_Menu_Oculto.appendChild(label);
+  divMenu_Oculto.appendChild(cont_Menu_Oculto);
+  // unir al header
+  navBar.appendChild(divMenu_Oculto);
+  // navBar.appendChild(modal);
+  header.append(navBar);
+  // header.appendChild(divMenu_Oculto);
+};
 
-navBar_Menu_Oculto.appendChild(opcionA);
-navBar_Menu_Oculto.appendChild(opcionB);
-navBar_Menu_Oculto.appendChild(opcionC);
-navBar_Menu_Oculto.appendChild(opcionD);
+const cargarMenu = () => {
+  navBar_Menu_Oculto.innerHTML = "";
+  const estaLogueado = sessionStorage.getItem("usuarioOK");
 
-cont_Menu_Oculto.appendChild(navBar_Menu_Oculto);
-cont_Menu_Oculto.appendChild(label);
+  if (estaLogueado === "true") {
+    navBar_Menu_Oculto.appendChild(opcionA); //Inicio.
+    navBar_Menu_Oculto.appendChild(opcionI); //Menú de administración.
+    navBar_Menu_Oculto.appendChild(opcionG); //Salir del sistema.
+    cargarHeader();
+    let salir = document.getElementById("salirSistema");
+    salir.addEventListener("click", () => salirDelSistema());
+  } else {
+    navBar_Menu_Oculto.appendChild(opcionA); //Inicio.
+    navBar_Menu_Oculto.appendChild(opcionB); //Peliculas.
+    navBar_Menu_Oculto.appendChild(opcionC); //Series.
+    navBar_Menu_Oculto.appendChild(opcionD); //Ingresar al sistema.
+    cargarHeader();
+  }
+};
 
-divMenu_Oculto.appendChild(cont_Menu_Oculto);
-
-// unir al header
-navBar.appendChild(divMenu_Oculto);
-// navBar.appendChild(modal);
-header.append(navBar);
-// header.appendChild(divMenu_Oculto);
+cargarMenu();
 
 // cuando hace scroll, el header cambia de color
 window.addEventListener("scroll", () => {
@@ -141,9 +167,14 @@ header.append(divModal);
 
 opcionD.setAttribute("data-bs-toggle", "modal");
 opcionD.setAttribute("data-bs-target", "#login");
-
 opcionD.addEventListener("click", () => ocultarMenu());
 
 const ocultarMenu = () => {
   divMenu_Oculto.className = "d-none";
+};
+
+const salirDelSistema = () => {
+  window.location = "./index.html";
+  sessionStorage.setItem("usuarioOK", "false");
+  cargarMenu();
 };

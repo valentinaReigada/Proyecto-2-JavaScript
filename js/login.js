@@ -26,11 +26,12 @@ const entrarAdmin = () => {
         USERS[i].password === inputPassword.value
       ) {
         validationOk = true;
-        sessionStorage.setItem("usuario", "true");
+        // Registrar el ingreso
+        sessionStorage.setItem("usuarioOK", "true");
       }
     }
     if (validationOk) {
-      console.log("usuario habilitado");
+      cargarMenu();
       window.location = "./administracion.html";
     } else {
       mensajeDeLogin.style = "color:red ;font-weight:bold";

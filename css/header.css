@@ -74,7 +74,7 @@ aca vemos lo del menu hamburguesa */
 }
 
 .cont-menu nav {
-  transform: translateY(20%);
+  transform: translateY(40%);
 }
 
 .cont-menu nav a {
@@ -98,7 +98,7 @@ aca vemos lo del menu hamburguesa */
   top: 10px;
   color: #fff;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 10px;
 }
 
 /* breakpoints */
