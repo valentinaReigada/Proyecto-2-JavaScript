@@ -1,0 +1,53 @@
+body {
+  background-color: var(--blanco);
+}
+#adminPeliculas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.contenedor {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vw;
+  height: 50vh;
+  background-color: var(--azulOscuro);
+  /* border: 2px solid var(--blanco); */
+}
+
+.item {
+  background-color: var(--blanco);
+  border: 1px solid var(--azulOscuro);
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+.item a {
+  text-decoration: none;
+  color: var(--verde);
+  font-weight: 600;
+  font-weight: bold;
+}
+.item a:hover {
+  color: var(--blanco);
+}
+.item:hover {
+  cursor: pointer;
+  background-color: var(--azulOscuro);
+  color: var(--blanco);
+}
+
+#titulo {
+  margin-top: 90px;
+  color: var(--azulOscuro);
+  font-weight: 600;
+}
+
+#titulo h3 {
+  border-bottom: 0.1px solid var(--verde);
+}

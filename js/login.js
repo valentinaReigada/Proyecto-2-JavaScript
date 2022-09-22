@@ -32,7 +32,7 @@ const entrarAdmin = () => {
     }
     if (validationOk) {
       cargarMenu();
-      window.location = "./administracion.html";
+      window.location = "./adminPeliculas.html";
     } else {
       mensajeDeLogin.style = "color:red ;font-weight:bold";
       mensajeDeLogin.innerHTML = "Usuario o contraseña incorrectos!";

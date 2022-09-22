@@ -32,8 +32,7 @@ const opcionA = document.createElement("a");
 const opcionB = document.createElement("a");
 const opcionC = document.createElement("a");
 const opcionD = document.createElement("a");
-const opcionE = document.createElement("a");
-const opcionF = document.createElement("a");
+
 const opcionG = document.createElement("a");
 const opcionI = document.createElement("a");
 
@@ -42,8 +41,6 @@ opcionB.innerHTML = "Peliculas";
 opcionC.innerHTML = "Series";
 opcionD.innerHTML = "Ingresar al Sistema";
 // Si esta logueado se me visualizan estas opciones
-opcionE.innerHTML = "Admin Peliculas";
-opcionF.innerHTML = "Admin Usuarios";
 opcionG.innerHTML = "Salir del sistema";
 opcionI.innerHTML = "Adminitración";
 
@@ -54,6 +51,7 @@ opcionC.setAttribute("href", "./error404.html");
 opcionD.setAttribute("data-bs-toggle", "modal");
 opcionD.setAttribute("data-bs-target", "#login");
 
+opcionI.setAttribute("href", "./adminPeliculas.html");
 opcionG.setAttribute("id", "salirSistema");
 opcionG.setAttribute("type", "button");
 
