@@ -45,13 +45,13 @@ opcionG.innerHTML = "Salir del sistema";
 opcionI.innerHTML = "Adminitración";
 
 opcionA.setAttribute("href", "./index.html");
-opcionB.setAttribute("href", "./error404.html");
-opcionC.setAttribute("href", "./error404.html");
+opcionB.setAttribute("href", "#");
+opcionC.setAttribute("href", "#");
 
 opcionD.setAttribute("data-bs-toggle", "modal");
 opcionD.setAttribute("data-bs-target", "#login");
 
-opcionI.setAttribute("href", "./adminPeliculas.html");
+opcionI.setAttribute("href", "./administracion.html");
 opcionG.setAttribute("id", "salirSistema");
 opcionG.setAttribute("type", "button");
 
@@ -72,6 +72,8 @@ const cargarMenu = () => {
   const estaLogueado = sessionStorage.getItem("usuarioOK");
 
   if (estaLogueado === "true") {
+    // dejo el header fijo
+    navBar.className = "navBar color_Header";
     navBar_Menu_Oculto.appendChild(opcionA); //Inicio.
     navBar_Menu_Oculto.appendChild(opcionI); //Menú de administración.
     navBar_Menu_Oculto.appendChild(opcionG); //Salir del sistema.
@@ -130,7 +132,7 @@ divModal.setAttribute("aria-hidden", "true");
 // inyecto la estructura del modal de inicio sesion
 divModal.innerHTML = `
 <div class="modal-dialog tamañoModal-md">
-  <div class="modal-content">
+  <div class="modal-content color-login">
   <div class="modal-header">
     <img id="img_logoModal" src="./img/logoPeli (2).png" alt="logoModal"/>
     <h6 class="m-0">Rolling Movie</h6>
@@ -147,8 +149,9 @@ divModal.innerHTML = `
     </div>
     <div id="infoAUsuario" class="infoUsuario-login"><a href="#">Recuperar contraseña</a></div>
     </div>
-    <div class="mt-2">
-    <button type="button" id="botonEntrar" onClick="entrarAdmin()" class="btn-entrar w-100">Entrar</button>
+    <div class="mt-2 d-flex justify-content-end">
+    <button type="button" id="botonEntrar" onClick="entrarAdmin()" class="btn-entrar">Ingresar</button>
+    <button type="button"  class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
     </div>
   </div>
   </form>

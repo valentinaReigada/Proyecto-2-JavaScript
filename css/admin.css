@@ -41,6 +41,10 @@ main {
   text-align: center;
 }
 
+.contenedorBotonera {
+  margin-bottom: 15px;
+}
+
 /* ESTILOS A LAS ACCIONES DE GRILLA */
 .boton {
   padding: 10px;
@@ -63,15 +67,15 @@ main {
   color: var(--azulOscuro);
 }
 .botonNew {
-  border: 1px solid var(--blanco); /* border: none; */
-  background-color: #28314930;
-  color: var(--azulOscuro);
-  font-size: bold;
+  border: 1px solid var(--azulOscuro); /* border: none; */
+  background-color: var(--violetaMedio);
+  color: var(--blanco);
+  /* font-size: bold; */
   padding: 3px;
   /* border-radius: 30%; */
   margin: 5px 0;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 10px;
+  /* font-weight: bold; */
 }
 .botonNew:hover {
   background-color: var(--azulOscuro);
@@ -79,6 +83,7 @@ main {
 }
 
 .contenedorGrilla th {
+  background-color: var(--violetaMedio);
   color: var(--blanco);
 }
 
@@ -89,22 +94,25 @@ main {
 
 /* estilos al modal */
 #header_modal {
-  background-color: var(--azulOscuro);
-  color: var(--blanco);
+  background-color: var(--blanco);
+  color: var(--azulOscuro);
 }
 #header_modal h5 {
   font-size: 17px;
 }
 .btn_modal_admin {
-  border: 1px dotted var(--azulOscuro);
-  padding: 8px;
+  border: 0.1px solid var(--verde);
+  padding: 6px;
+  font-size: 12px;
+  font-size: bold;
   color: var(--azulOscuro);
-  background-color: rgba(128, 128, 128, 0.186);
+  background-color: var(--blanco);
 }
 .btn_modal_admin:hover {
-  background-color: var(--azulOscuro);
+  background-color: var(--violetaMedio);
   color: var(--blanco);
   cursor: pointer;
+  transition: 500ms all ease;
 }
 .body_Peliculas {
   background-color: rgba(128, 128, 128, 0.074);

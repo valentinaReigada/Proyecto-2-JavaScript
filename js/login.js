@@ -1,7 +1,7 @@
 // Creo usuarios para comparar si el logueo es correcto o no
 const USERS = [
-  { user: "Martin", password: "martin" },
-  { user: "valentina", password: "valentina" },
+  { user: "martin", password: "martin", admin: "NO" },
+  { user: "valentina", password: "valentina", admin: "SI" },
 ];
 
 // // LOGICA DEL BOTON ENTRAR del login (validacion de ingreso)
@@ -32,7 +32,7 @@ const entrarAdmin = () => {
     }
     if (validationOk) {
       cargarMenu();
-      window.location = "./adminPeliculas.html";
+      window.location = "./administracion.html";
     } else {
       mensajeDeLogin.style = "color:red ;font-weight:bold";
       mensajeDeLogin.innerHTML = "Usuario o contraseña incorrectos!";

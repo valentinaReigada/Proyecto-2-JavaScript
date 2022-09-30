@@ -5,13 +5,17 @@
 }
 
 .btn-entrar {
-  border: 0.5px dotted var(--verde);
+  margin: 0 3px;
+  border: 1px solid #2831492f;
   padding: 5px;
+  font-size: 13px;
+  font-size: bold;
   color: var(--azulOscuro);
   background-color: var(--blanco);
 }
 .btn-entrar:hover {
-  background-color: var(--verde);
+  transition: all 500ms ease;
+  background-color: var(--violetaMedio);
   color: var(--blanco);
 }
 
@@ -26,6 +30,10 @@
   color: var(--azulOscuro);
 }
 
+.color-login {
+  /* background-color: var(--blanco); */
+}
+
 /* BREAKPOINTS */
 
 /* MODO TABLET */
@@ -34,7 +42,20 @@
     width: 350px !important;
     height: 350px !important;
   }
+  .btn-entrar {
+    font-size: 15px;
+  }
+  .infoUsuario-login {
+    font-size: 13px;
+  }
 }
 /* MODO PC */
 @media (min-width: 992px) {
+  .tamañoModal-md {
+    width: 380px !important;
+    height: 380px !important;
+  }
+  .btn-entrar {
+    font-size: 17px;
+  }
 }

@@ -34,17 +34,17 @@
 .botones {
   margin-right: 5px;
   /* border: 1px solid var(--azulOscuro); */
-  background-color: rgba(255, 255, 255, 0.544);
-  padding: 2px 3px;
+  background-color: rgba(255, 255, 255, 0.287);
+  padding: 2px;
   border-radius: 100px;
   font-weight: 600;
   font-size: 8px;
   color: black;
 }
 
-.btn-VerMas {
-  /* padding-left: 0px; */
-  background-color: rgba(255, 255, 255, 0.287);
+.botones i {
+  font-size: 8px;
+  margin-right: 1px;
 }
 
 .banner-titulo,
@@ -72,6 +72,12 @@
   }
   .banner-descripcion {
     font-size: 11px;
+  }
+
+  .botones i {
+    font-size: 10px;
+    font-weight: bold;
+    margin-right: 1px;
   }
 }
 

@@ -1,5 +1,5 @@
 // // INYECCION DE PELICULAS
-const listaPeliculas = JSON.parse(localStorage.getItem("peliculas"));
+const listaPeliculas = JSON.parse(sessionStorage.getItem("peliculas"));
 
 // OBTENGO DIV PARA LOS CAROUSELES
 const contenedorCarouselRecomendadas = document.getElementById(
