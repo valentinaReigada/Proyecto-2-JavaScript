@@ -326,6 +326,7 @@ const destacar = (pelicula) => {
   cargarGrilla();
 };
 
+cargarGrilla();
 // esto hacerlo una vez logueado. no siempre
 const listaPelicula = [
   // INICIO PELICULAS DE COMEDIA
@@ -742,4 +743,7 @@ const listaPelicula = [
 ];
 sessionStorage.setItem("peliculas", JSON.stringify(listaPelicula));
 
-cargarGrilla();
+// const cargarPeliculas = () => {
+//   // window.location.reload();
+//   cargarGrilla();
+// };

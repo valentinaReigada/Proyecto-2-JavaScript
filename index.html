@@ -38,14 +38,16 @@
       crossorigin="anonymous"
     ></script>
     <!-- SCRIPTS JS -->
+    <script src="./js/admin.js" defer></script>
+    <script src="./js/sliders.js" defer></script>
     <script src="./js/login.js" defer></script>
     <script src="./js/header.js" defer></script>
     <script src="./js/banner.js" defer></script>
     <script src="./js/validacion.js" defer></script>
-    <script src="./js/admin.js" defer></script>
   </head>
   <body
-    onresize="calcularPaginas(); calcularPaginasTerror(); calcularPaginasComedia();"
+    onresize="calcularPaginas(); calcularPaginasTerror(); calcularPaginasComedia()"
+    ;
   >
     <!-- HEADER START -->
     <header id="header">
@@ -53,7 +55,7 @@
     </header>
     <!-- HEADER END -->
     <!-- MAIN START -->
-    <main>
+    <main load="actualizarCatalogo()">
       <div class="d-none" id="contenedor_admin"></div>
       <!--BANNER START -->
       <div id="contenedor-banner"></div>
@@ -174,6 +176,5 @@
       integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
       crossorigin="anonymous"
     ></script>
-    <script src="./js/sliders.js"></script>
   </body>
 </html>
