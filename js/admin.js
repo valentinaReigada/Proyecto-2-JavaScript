@@ -11,7 +11,7 @@ const encabezado_grilla = document.createElement("thead");
 const cuerpo_grilla = document.createElement("tbody");
 
 const div_titulo = document.createElement("div");
-div_titulo.innerHTML = `<h2 id="titulo_admin">Adminitración de Peliculas</h2>`;
+div_titulo.innerHTML = `<h2 id="titulo_admin">Administración de Peliculas</h2>`;
 
 // creo el contenedor de botones y el  boton de insert
 const contenedorBotonera = document.createElement("div");
@@ -71,7 +71,7 @@ divModalAdmin_new.innerHTML = `
         </div>
       <div class="col-12 col-md-8">
         <label for="nombre_new" class="form-label">Pelicula</label>
-        <input type="text" class="form-control" maxlength="15" id="nombre_new" placeholder="Ingresá nombre de la pelicula" required>
+        <input type="text" class="form-control" maxlength="30" id="nombre_new" placeholder="Ingresá nombre de la pelicula" required>
         </div>
       <div class="col-12 col-md-7">
         <label for="categoria_new" class="form-label">Categoria</label>
@@ -102,7 +102,7 @@ divModalAdmin_new.innerHTML = `
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" id="confirmar_new" class="btn-entrar">Confirmar</button>
+    <button type="button" id="confirmar_new" class="btn-entrar" data-bs-dismiss="modal">Confirmar</button>
     <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
   </div>
 </div>
@@ -136,7 +136,7 @@ divModalAdmin_upd.innerHTML = `
         </div>
       <div class="col-12 col-md-8">
         <label for="pelicula_edit" class="form-label">Pelicula</label>
-        <input type="text" maxlength="15" class="form-control" id="pelicula_edit" placeholder="Ingresá nombre de la pelicula" required>
+        <input type="text" maxlength="30" class="form-control" id="pelicula_edit" placeholder="Ingresá nombre de la pelicula" required>
       </div>
       <div class="col-12 col-md-7">
         <label for="categoria_edit" class="form-label">Categoria</label>
@@ -188,8 +188,11 @@ contenedor.appendChild(divFlexible);
 
 // LOGICA PARA LA GRILLA
 const cargarGrilla = () => {
+  const peliculasParaCargar =
+    JSON.parse(sessionStorage.getItem("peliculas")) || [];
+
   cuerpo_grilla.innerHTML = "";
-  PELICULAS.forEach((p) => {
+  peliculasParaCargar.forEach((p) => {
     let fila = document.createElement("tr");
     fila.innerHTML = `
     <td>
@@ -221,7 +224,7 @@ const cargarGrilla = () => {
     const editar = document.getElementById(`upd_${p.id}`);
     editar.addEventListener("click", () => editarPelicula(p));
     const eliminar = document.getElementById(`del_${p.id}`);
-    eliminar.addEventListener("click", () => eliminarPelicula(p));
+    eliminar.addEventListener("click", () => eliminarPelicula(p, "S"));
     const destacada = document.getElementById(`destacada_${p.id}`);
     destacada.addEventListener("click", () => destacar(p));
   });
@@ -257,15 +260,21 @@ agregarPelicula.addEventListener("click", () => {
 
   // actualizar grilla
   cargarGrilla();
-
-  // cerrar el modal y tirar mensaje de error
+  mensajeAlert(peli, "Se agregó correctamente", "success");
 });
 
-const eliminarPelicula = (pelicula) => {
+const mensajeAlert = (pelicula, mensaje, tipo) => {
+  swal(`Pelicula: ${pelicula.nombre}`, mensaje, tipo);
+};
+
+const eliminarPelicula = (pelicula, mensajeOk) => {
   const index = PELICULAS.indexOf(pelicula);
   PELICULAS.splice(index, 1);
   sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
   cargarGrilla();
+  if (mensajeOk === "S") {
+    mensajeAlert(pelicula, "Ha sido eliminada.", "success");
+  }
 };
 
 const editarPelicula = (pelicula) => {
@@ -296,13 +305,15 @@ const editarPelicula = (pelicula) => {
     };
 
     // Elimino la pelicula con datos viejos
-    eliminarPelicula(pelicula);
+    eliminarPelicula(pelicula, "N");
     // Agrego pelicula actualizada a la lista
     PELICULAS.push(peli);
     // Agrego lista actualizada al local storage
+    sessionStorage.removeItem("peliculas");
     sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
 
     cargarGrilla(); //actualizo la grilla
+    mensajeAlert(peli, "Se actualizó correctamente", "success");
   });
 };
 

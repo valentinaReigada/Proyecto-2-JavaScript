@@ -6,12 +6,12 @@
 
 .btn-entrar {
   margin: 0 3px;
-  border: 1px solid #2831492f;
+  border: 1px solid var(--blanco);
   padding: 5px;
   font-size: 13px;
   font-size: bold;
   color: var(--azulOscuro);
-  background-color: var(--blanco);
+  background-color: #c4d7e0;
 }
 .btn-entrar:hover {
   transition: all 500ms ease;

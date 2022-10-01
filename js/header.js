@@ -21,7 +21,7 @@ navBar.className = "navBar";
 divLogo.className = "contenedor-logoDeMenu";
 divLogo.innerHTML = `
 <label for="btn_menu">
-<img id="img_logo" src="./img/botonHam.png" alt="logo" />
+<img id="img_logo" src="./img/botonHam.png" alt="logo" /> 
 </label>
 <input id="btn_menu" type="checkbox"></input>`;
 
@@ -42,7 +42,7 @@ opcionC.innerHTML = "Series";
 opcionD.innerHTML = "Ingresar al Sistema";
 // Si esta logueado se me visualizan estas opciones
 opcionG.innerHTML = "Salir del sistema";
-opcionI.innerHTML = "Adminitración";
+opcionI.innerHTML = "Administración";
 
 opcionA.setAttribute("href", "./index.html");
 opcionB.setAttribute("href", "#");
@@ -73,7 +73,7 @@ const cargarMenu = () => {
 
   if (estaLogueado === "true") {
     // dejo el header fijo
-    navBar.className = "navBar color_Header";
+    // navBar.className = "navBar color_Header";
     navBar_Menu_Oculto.appendChild(opcionA); //Inicio.
     navBar_Menu_Oculto.appendChild(opcionI); //Menú de administración.
     navBar_Menu_Oculto.appendChild(opcionG); //Salir del sistema.
