@@ -64,9 +64,9 @@ divModalAdmin_new.innerHTML = `
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">
-  <form class="row g-3  form_Admin">
+  <form class="row g-3" id="form_insert">
       <div class="col-12 col-md-4">
-        <label for="id_new" class="form-label">Id</label>
+        <label for="id_new" class="form-label">Id</label>                                              
         <input type="number" maxlength="5" id="id_new" class="form-control" placeholder="Id de pelicula" required>
         </div>
       <div class="col-12 col-md-8">
@@ -91,19 +91,19 @@ divModalAdmin_new.innerHTML = `
       </div>
       <div class="col-12">
         <label for="descripcion_new" class="form-label">Descripción</label>
-        <textarea class="form-control" id="descripcion_new" rows="3" placeholder="Ingresá descripción"
+        <textarea class="form-control" id="descripcion_new" rows="5" placeholder="Ingresá descripción"
         required>
         </textarea>
       </div>
       <div class="col-12">
-        <label for="url_imagen_edit_new" maxlength="20" class="form-label">Url de Imagen</label>
+        <label for="url_imagen_edit_new" maxlength="50" class="form-label">Url de Imagen</label>
         <input type="text" class="form-control" id="url_imagen_edit_new" placeholder="Ingresá url de imagen" required>
       </div>
+      <div class="modal-footer">
+        <button type="submit" id="confirmar_new" class="btn-entrar">Confirmar</button>
+        <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
+      </div>
     </form>
-  </div>
-  <div class="modal-footer">
-    <button type="button" id="confirmar_new" class="btn-entrar" data-bs-dismiss="modal">Confirmar</button>
-    <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
   </div>
 </div>
 </div>
@@ -136,7 +136,7 @@ divModalAdmin_upd.innerHTML = `
         </div>
       <div class="col-12 col-md-8">
         <label for="pelicula_edit" class="form-label">Pelicula</label>
-        <input type="text" maxlength="30" class="form-control" id="pelicula_edit" placeholder="Ingresá nombre de la pelicula" required>
+        <input type="text" maxlength="40" class="form-control" id="pelicula_edit" placeholder="Ingresá nombre de la pelicula" required>
       </div>
       <div class="col-12 col-md-7">
         <label for="categoria_edit" class="form-label">Categoria</label>
@@ -156,19 +156,19 @@ divModalAdmin_upd.innerHTML = `
       </div>
       <div class="col-12">
         <label for="descripcion_edit" class="form-label">Descripción</label>
-        <textarea class="form-control" maxlength="30" id="descripcion_edit" rows="3" placeholder="Ingresá descripción"
+        <textarea class="form-control" maxlength="60" id="descripcion_edit" rows="5" placeholder="Ingresá descripción"
         required>
         </textarea>
       </div>
       <div class="col-12">
       <label for="url_imagen_edit" class="form-label">Url de Imagen</label>
-      <input type="text" class="form-control" maxlength="20" id="url_imagen_edit" placeholder="Ingresá url de imagen" required>
+      <input type="text" class="form-control" maxlength="50" id="url_imagen_edit" placeholder="Ingresá url de imagen" required>
+      </div>
+      <div class="modal-footer" id="footer-modal">
+        <button type="submit" id="guardarCambios_upd" class="btn-entrar">Confirmar</button/>
+        <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </form>
-  </div>
-  <div class="modal-footer" id="footer-modal">
-    <button type="button" id="guardarCambios_upd" class="btn-entrar" data-bs-dismiss="modal">Guardar</button>
-    <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
   </div>
 </div>
 </div>
@@ -235,32 +235,45 @@ cargarGrilla();
 // ------------------ABM DE PELICULAS-----------------------------------------------------------
 
 const agregarPelicula = document.getElementById("confirmar_new");
+
 agregarPelicula.addEventListener("click", () => {
-  // capturar datos de los input y crear objeto de pelicula.
+  let form = document.getElementById("form_insert");
+  form.addEventListener("submit", () => {
+    if (form.checkValidity()) {
+      // Selecciono los input del modal de insert
+      const id_new = document.getElementById("id_new");
+      const nombre_new = document.getElementById("nombre_new");
+      const categoria_new = document.getElementById("categoria_new");
+      const destacar_new = document.getElementById("destacar_new");
+      const descripcion_new = document.getElementById("descripcion_new");
+      const url_imagen_edit_new = document.getElementById(
+        "url_imagen_edit_new"
+      );
 
-  let peli = {
-    id: id_new.value,
-    nombre: nombre_new.value,
-    categoria: categoria_new.value,
-    descripcion: descripcion_new.value,
-    urlDeImagen: url_imagen_edit_new.value,
-    esDestacada: destacar_new.value,
-  };
+      let peli = {
+        id: id_new.value,
+        nombre: nombre_new.value,
+        categoria: categoria_new.value,
+        descripcion: descripcion_new.value,
+        urlDeImagen: url_imagen_edit_new.value,
+        esDestacada: destacar_new.value,
+      };
 
-  PELICULAS.push(peli);
-  sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
+      PELICULAS.push(peli);
+      sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
 
-  // seteo los input.
-  id_new.value = "";
-  nombre_new.value = "";
-  categoria_new.value = "";
-  descripcion_new.value = "";
-  url_imagen_edit_new.value = "";
-  destacar_new.value = "";
+      // seteo los input.
+      id_new.value = "";
+      nombre_new.value = "";
+      categoria_new.value = "";
+      descripcion_new.value = "";
+      url_imagen_edit_new.value = "";
+      destacar_new.value = "";
 
-  // actualizar grilla
-  cargarGrilla();
-  mensajeAlert(peli, "Se agregó correctamente", "success");
+      // actualizar grilla
+      cargarGrilla();
+    }
+  });
 });
 
 const mensajeAlert = (pelicula, mensaje, tipo) => {
@@ -741,9 +754,10 @@ const listaPelicula = [
   },
   // FIN PELICULAS DE TERROR
 ];
-sessionStorage.setItem("peliculas", JSON.stringify(listaPelicula));
 
-// const cargarPeliculas = () => {
-//   // window.location.reload();
-//   cargarGrilla();
-// };
+if (sessionStorage) {
+  if (sessionStorage.getItem("peliculas") == undefined) {
+    // cargo peliculas en la sesion de usuario.
+    sessionStorage.setItem("peliculas", JSON.stringify(listaPelicula));
+  }
+}

@@ -36,7 +36,7 @@ const entrarAdmin = () => {
     } else {
       mensajeDeLogin.style = "color:red ;font-weight:bold";
       mensajeDeLogin.innerHTML = "Usuario o contraseña incorrectos!";
-      form.reset();
+      // form.reset();
     }
   }, 2000);
 };
