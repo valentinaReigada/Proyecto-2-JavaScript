@@ -96,8 +96,8 @@ divModalAdmin_new.innerHTML = `
         </textarea>
       </div>
       <div class="col-12">
-        <label for="url_imagen_edit_new" maxlength="50" class="form-label">Url de Imagen</label>
-        <input type="text" class="form-control" id="url_imagen_edit_new" placeholder="Ingresá url de imagen" required>
+        <label for="url_imagen_new" maxlength="50" class="form-label">Url de Imagen</label>
+        <input type="text" class="form-control" id="url_imagen_new" placeholder="Ingresá url de imagen" required>
       </div>
       <div class="modal-footer">
         <button type="submit" id="confirmar_new" class="btn-entrar">Confirmar</button>
@@ -156,7 +156,7 @@ divModalAdmin_upd.innerHTML = `
       </div>
       <div class="col-12">
         <label for="descripcion_edit" class="form-label">Descripción</label>
-        <textarea class="form-control" maxlength="120" id="descripcion_edit" rows="5" placeholder="Ingresá descripción"
+        <textarea class="form-control" maxlength="250" id="descripcion_edit" rows="6" placeholder="Ingresá descripción"
         >
         </textarea>
       </div>
@@ -165,7 +165,7 @@ divModalAdmin_upd.innerHTML = `
       <input type="text" class="form-control" maxlength="50" id="url_imagen_edit" placeholder="Ingresá url de imagen" required>
       </div>
       <div class="modal-footer" id="footer-modal">
-        <button type="submit" id="guardarCambios_upd" class="btn-entrar">Confirmar</button/>
+        <button type="submit" id="guardarCambios_upd" class="btn-entrar" data-bs-dismiss="modal">Confirmar</button/>
         <button type="button" class="btn-entrar" data-bs-dismiss="modal">Cancelar</button>
       </div>
     </form>
@@ -264,20 +264,18 @@ agregarPelicula.addEventListener("click", () => {
     if (form.checkValidity()) {
       e.preventDefault();
       // Selecciono los input del modal de insert
-      const nombre_new = document.getElementById("nombre_new");
-      const categoria_new = document.getElementById("categoria_new");
-      const destacar_new = document.getElementById("destacar_new");
-      const descripcion_new = document.getElementById("descripcion_new");
-      const url_imagen_edit_new = document.getElementById(
-        "url_imagen_edit_new"
-      );
+      let nombre_new = document.getElementById("nombre_new");
+      let categoria_new = document.getElementById("categoria_new");
+      let destacar_new = document.getElementById("destacar_new");
+      let descripcion_new = document.getElementById("descripcion_new");
+      let url_imagen_new = document.getElementById("url_imagen_new");
 
       let peli = {
         id: siguienteID(),
         nombre: nombre_new.value,
         categoria: categoria_new.value,
         descripcion: descripcion_new.value,
-        urlDeImagen: url_imagen_edit_new.value,
+        urlDeImagen: url_imagen_new.value,
         esDestacada: destacar_new.value,
       };
       let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
@@ -294,7 +292,7 @@ agregarPelicula.addEventListener("click", () => {
       nombre_new.value = "";
       categoria_new.value = "";
       descripcion_new.value = "";
-      url_imagen_edit_new.value = "";
+      url_imagen_new.value = "";
       destacar_new.value = "";
 
       // actualizar grilla
@@ -302,10 +300,6 @@ agregarPelicula.addEventListener("click", () => {
     }
   });
 });
-
-const mensajeAlert = (pelicula, mensaje, tipo) => {
-  swal(`Pelicula: ${pelicula.nombre}`, mensaje, tipo);
-};
 
 const eliminarPelicula = (pelicula, mensajeOk) => {
   let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
@@ -347,8 +341,8 @@ const editarPelicula = (pelicula) => {
           nombre: editName.value,
           categoria: editCategoria.value,
           descripcion: editDescripcion.value,
-          urlDeImagen: url_imagen_edit_new.value,
-          esDestacada: editUrl.value,
+          urlDeImagen: editUrl.value,
+          esDestacada: editDestacada.value,
         };
 
         // Elimino la pelicula con datos viejos
