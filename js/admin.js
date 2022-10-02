@@ -67,7 +67,7 @@ divModalAdmin_new.innerHTML = `
   <form class="row g-3" id="form_insert">
       <div class="col-12 col-md-4">
         <label for="id_new" class="form-label">Id</label>                                              
-        <input type="number" maxlength="5" id="id_new" class="form-control" placeholder="Id de pelicula" required>
+        <input type="number" maxlength="5" id="id_new" class="form-control" placeholder="Id de pelicula" disabled>
         </div>
       <div class="col-12 col-md-8">
         <label for="nombre_new" class="form-label">Pelicula</label>
@@ -91,8 +91,8 @@ divModalAdmin_new.innerHTML = `
       </div>
       <div class="col-12">
         <label for="descripcion_new" class="form-label">Descripción</label>
-        <textarea class="form-control" id="descripcion_new" rows="5" placeholder="Ingresá descripción"
-        required>
+        <textarea class="form-control" id="descripcion_new" maxlenght="120" rows="5" placeholder="Ingresá descripción"
+        >
         </textarea>
       </div>
       <div class="col-12">
@@ -129,10 +129,10 @@ divModalAdmin_upd.innerHTML = `
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
   </div>
   <div class="modal-body">
-  <form class="row g-3 form_Admin">
+  <form class="row g-3 form_Admin" id="form_upd">
       <div class="col-12 col-md-4">
         <label for="id_edit" class="form-label">ID</label>
-        <input type="number" id="id_edit" class="form-control" placeholder="Id de pelicula" required>
+        <input type="number" id="id_edit" class="form-control" placeholder="Id de pelicula" disabled>
         </div>
       <div class="col-12 col-md-8">
         <label for="pelicula_edit" class="form-label">Pelicula</label>
@@ -156,8 +156,8 @@ divModalAdmin_upd.innerHTML = `
       </div>
       <div class="col-12">
         <label for="descripcion_edit" class="form-label">Descripción</label>
-        <textarea class="form-control" maxlength="60" id="descripcion_edit" rows="5" placeholder="Ingresá descripción"
-        required>
+        <textarea class="form-control" maxlength="120" id="descripcion_edit" rows="5" placeholder="Ingresá descripción"
+        >
         </textarea>
       </div>
       <div class="col-12">
@@ -187,9 +187,8 @@ divFlexible.appendChild(contenedorGrilla); //inserto el contenedor de grilla en 
 contenedor.appendChild(divFlexible);
 
 // LOGICA PARA LA GRILLA
-const cargarGrilla = () => {
-  const peliculasParaCargar =
-    JSON.parse(sessionStorage.getItem("peliculas")) || [];
+const cargarGrilla = (modo) => {
+  const peliculasParaCargar = JSON.parse(sessionStorage.getItem("peliculas"));
 
   cuerpo_grilla.innerHTML = "";
   peliculasParaCargar.forEach((p) => {
@@ -228,9 +227,31 @@ const cargarGrilla = () => {
     const destacada = document.getElementById(`destacada_${p.id}`);
     destacada.addEventListener("click", () => destacar(p));
   });
+  indicarCambioPorMensaje(modo);
 };
 
-cargarGrilla();
+const indicarCambioPorMensaje = (modo) => {
+  if (modo !== "simple") {
+    let mensaje = "";
+    switch (modo) {
+      case "INS":
+        mensaje = "La pelicula se insertó correctamente.";
+        break;
+      case "UPD":
+        mensaje = "La pelicula se actualizó correctamente.";
+        break;
+      case "DLT":
+        mensaje = "La pelicula se eliminó correctamente.";
+        break;
+      case "DES" /*destacó la pelicula.*/:
+        mensaje = "La pelicula elegida ha sido destacada.";
+        break;
+    }
+    swal("", mensaje, "success");
+  }
+};
+
+cargarGrilla("simple");
 
 // ------------------ABM DE PELICULAS-----------------------------------------------------------
 
@@ -238,10 +259,10 @@ const agregarPelicula = document.getElementById("confirmar_new");
 
 agregarPelicula.addEventListener("click", () => {
   let form = document.getElementById("form_insert");
-  form.addEventListener("submit", () => {
+  form.addEventListener("submit", (e) => {
     if (form.checkValidity()) {
+      e.preventDefault();
       // Selecciono los input del modal de insert
-      const id_new = document.getElementById("id_new");
       const nombre_new = document.getElementById("nombre_new");
       const categoria_new = document.getElementById("categoria_new");
       const destacar_new = document.getElementById("destacar_new");
@@ -251,19 +272,24 @@ agregarPelicula.addEventListener("click", () => {
       );
 
       let peli = {
-        id: id_new.value,
+        id: siguienteID(),
         nombre: nombre_new.value,
         categoria: categoria_new.value,
         descripcion: descripcion_new.value,
         urlDeImagen: url_imagen_edit_new.value,
         esDestacada: destacar_new.value,
       };
+      let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
+      listaHastaAhora.push(peli);
+      sessionStorage.removeItem("peliculas");
+      sessionStorage.setItem("peliculas", JSON.stringify(listaHastaAhora));
 
-      PELICULAS.push(peli);
-      sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
-
+      // validar si quiere destacar la pelicula nueva, si es asi,
+      // debo actualizar la grilla.
+      if (destacar_new.value === "Si") {
+        destacar(peli);
+      }
       // seteo los input.
-      id_new.value = "";
       nombre_new.value = "";
       categoria_new.value = "";
       descripcion_new.value = "";
@@ -271,7 +297,7 @@ agregarPelicula.addEventListener("click", () => {
       destacar_new.value = "";
 
       // actualizar grilla
-      cargarGrilla();
+      cargarGrilla("INS");
     }
   });
 });
@@ -281,12 +307,14 @@ const mensajeAlert = (pelicula, mensaje, tipo) => {
 };
 
 const eliminarPelicula = (pelicula, mensajeOk) => {
-  const index = PELICULAS.indexOf(pelicula);
-  PELICULAS.splice(index, 1);
-  sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
-  cargarGrilla();
+  let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
+  let listaActualizada = listaHastaAhora.filter((p) => p.id !== pelicula.id);
+  sessionStorage.removeItem("peliculas");
+  sessionStorage.setItem("peliculas", JSON.stringify(listaActualizada));
   if (mensajeOk === "S") {
-    mensajeAlert(pelicula, "Ha sido eliminada.", "success");
+    cargarGrilla("DLT");
+  } else {
+    cargarGrilla("simple");
   }
 };
 
@@ -308,38 +336,72 @@ const editarPelicula = (pelicula) => {
 
   const botonGuardar = document.getElementById("guardarCambios_upd");
   botonGuardar.addEventListener("click", () => {
-    let peli = {
-      id: editId.value,
-      nombre: editName.value,
-      categoria: editCategoria.value,
-      descripcion: editDescripcion.value,
-      urlDeImagen: url_imagen_edit_new.value,
-      esDestacada: editUrl.value,
-    };
+    let form = document.getElementById("form_upd");
+    form.addEventListener("submit", (e) => {
+      if (form.checkValidity()) {
+        e.preventDefault();
 
-    // Elimino la pelicula con datos viejos
-    eliminarPelicula(pelicula, "N");
-    // Agrego pelicula actualizada a la lista
-    PELICULAS.push(peli);
-    // Agrego lista actualizada al local storage
-    sessionStorage.removeItem("peliculas");
-    sessionStorage.setItem("peliculas", JSON.stringify(PELICULAS));
+        let peli = {
+          id: editId.value,
+          nombre: editName.value,
+          categoria: editCategoria.value,
+          descripcion: editDescripcion.value,
+          urlDeImagen: url_imagen_edit_new.value,
+          esDestacada: editUrl.value,
+        };
 
-    cargarGrilla(); //actualizo la grilla
-    mensajeAlert(peli, "Se actualizó correctamente", "success");
+        // Elimino la pelicula con datos viejos
+        eliminarPelicula(pelicula, "N");
+        // Agrego pelicula actualizada a la lista
+        let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
+        listaHastaAhora.push(peli);
+        // Agrego lista actualizada al local storage
+        sessionStorage.removeItem("peliculas");
+        sessionStorage.setItem("peliculas", JSON.stringify(listaHastaAhora));
+
+        // validar si quiere destacar la pelicula, si es asi,
+        // debo actualizar la grilla.
+        if (editCategoria.value === "Si") {
+          destacar(peli);
+        }
+        cargarGrilla("UPD"); //actualizo la grilla
+      }
+    });
   });
 };
 
-const destacar = (pelicula) => {
-  const listaSinDestacadas = PELICULAS.map((p) => (p.esDestacada = "No"));
-  sessionStorage.setItem("peliculas", JSON.stringify(listaSinDestacadas));
+const setearDestacada = (p, peliculaADestacar) => {
+  let valor = "";
+  if (p.id === peliculaADestacar.id) {
+    valor = "Si";
+  } else {
+    valor = "No";
+  }
 
-  const index = PELICULAS.indexOf(pelicula);
-  PELICULAS[index].esDestacada = "Si";
-  cargarGrilla();
+  let pelicula = {
+    id: p.id,
+    nombre: p.nombre,
+    categoria: p.categoria,
+    descripcion: p.descripcion,
+    urlDeImagen: p.urlDeImagen,
+    esDestacada: valor,
+  };
+  return pelicula;
 };
 
-cargarGrilla();
+const destacar = (pelicula) => {
+  // obtengo la lista de peliculas que tengo hasta el momento.
+  let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
+
+  let listaActualizada = listaHastaAhora.map((p) =>
+    setearDestacada(p, pelicula)
+  );
+  sessionStorage.removeItem("peliculas");
+  sessionStorage.setItem("peliculas", JSON.stringify(listaActualizada));
+  cargarGrilla("DES");
+};
+
+cargarGrilla("simple");
 // esto hacerlo una vez logueado. no siempre
 const listaPelicula = [
   // INICIO PELICULAS DE COMEDIA
@@ -761,3 +823,14 @@ if (sessionStorage) {
     sessionStorage.setItem("peliculas", JSON.stringify(listaPelicula));
   }
 }
+
+// Hacer una funcion que me retorne el ultimo id ingresado para
+// el nuevo insert
+
+const siguienteID = () => {
+  let ids = PELICULAS.map((p) => p.id);
+  let siguienteID = Math.max.apply(null, ids) + 1;
+  return siguienteID;
+};
+
+// Cuando guarde el modal que me tire el mensaje de exito en cargar grilla.
