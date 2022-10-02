@@ -188,7 +188,8 @@ contenedor.appendChild(divFlexible);
 
 // LOGICA PARA LA GRILLA
 const cargarGrilla = (modo) => {
-  const peliculasParaCargar = JSON.parse(sessionStorage.getItem("peliculas"));
+  const peliculasParaCargar =
+    JSON.parse(sessionStorage.getItem("peliculas")) || [];
 
   cuerpo_grilla.innerHTML = "";
   peliculasParaCargar.forEach((p) => {
@@ -818,7 +819,7 @@ const listaPelicula = [
 ];
 
 if (sessionStorage) {
-  if (sessionStorage.getItem("peliculas") == undefined) {
+  if (JSON.parse(sessionStorage.getItem("peliculas")) == undefined) {
     // cargo peliculas en la sesion de usuario.
     sessionStorage.setItem("peliculas", JSON.stringify(listaPelicula));
   }
