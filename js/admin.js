@@ -335,7 +335,9 @@ const editarPelicula = (pelicula) => {
     form.addEventListener("submit", (e) => {
       if (form.checkValidity()) {
         e.preventDefault();
-
+        // Elimino la pelicula con datos viejos
+        eliminarPelicula(pelicula, "N");
+        // creo el molde con la pelicula
         let peli = {
           id: editId.value,
           nombre: editName.value,
@@ -345,8 +347,6 @@ const editarPelicula = (pelicula) => {
           esDestacada: editDestacada.value,
         };
 
-        // Elimino la pelicula con datos viejos
-        eliminarPelicula(pelicula, "N");
         // Agrego pelicula actualizada a la lista
         let listaHastaAhora = JSON.parse(sessionStorage.getItem("peliculas"));
         listaHastaAhora.push(peli);
